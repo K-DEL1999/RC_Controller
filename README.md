@@ -34,7 +34,7 @@ The nRF24L01 is in an undefined state until VDD becomes greater than or equal to
 enters the **Power On Reset State**. It remains in this state until it enters the **Power Down Mode**. Even when in
 power down mode the MCU can control the chip through *SPI* and the *Chip Enable pin*.
 
-### States
+## States
 
 **Undefined**
 
@@ -55,7 +55,7 @@ the integrated frequency synthesizer used to generate the stable, high frequency
 modulation. Locks the output frequency of the radio to a specific 2.4 Ghz channel.
 
 
-### Modes
+## Modes
 
 **Power Down Mode** (pg 20)
 
@@ -70,7 +70,7 @@ SPI can be activated.
 
 Once PWR_UP bit in CONFIG register is set to you the device enters **Standby-I mode**. Used to minimize average current
 while maintaing short startup times. In this mode part of the crystal oscillator is active. This is the mode nRF24L01 
-returns to from TX or RX when CE is set low. In **Standby-II mode** much more current is used and extra clocl buffers are
+returns to from TX or RX when CE is set low. In **Standby-II mode** much more current is used and extra clock buffers are
 active comapred to **standby-I**. **Standby-II** occurs when CE is held high on a PTX device with empty TX FIFO. If a new 
 packet is uploaded to the TX FIFO, PLL starts and packet is transmitted. 
 
@@ -101,7 +101,7 @@ transmitting the next packet. If TX FIFO is empty nRF24L01 goes into stanby-II m
 **NEVER KEEP THE nRF24LO1 IN TX MODE FOR MORE THAN 4 ms AT A TIME**
 **IF AUTO RETRANSMIT IS ENABLED, THE NRF24L01 IS NEVER IN TX MODE LONG ENOUGH TO DISOBEY THE RULE**
 
-###Timing for mode transitioning
+##Timing for mode transitioning
 
 1. Power Down -> standby mode             : 1.5 ms (max)
 2. Standby modes -> TX/RX                 : 130 us (max)
@@ -110,4 +110,14 @@ transmitting the next packet. If TX FIFO is empty nRF24L01 goes into stanby-II m
 5. Power Down -> TX/RX                    : 1.5 ms (min) (controlled by MCU)
 
 _MUST CONFIGURE NRF24L01 BEFORE ENTERING TX OR RX MODES_
+
+#Air Data Rate
+
+**Air Data Rate is the modulated signaling rate the nRF24L01 uses when transmitting and receiving data (Can be 1Mbps or 2Mbps)**
+(Higher air data rate mmeans lower average current consumption and reduced probability of on-air collisions)
+
+Air data rate is set by the RF DR bit in the RF SETUP REGISTER (transmitter and receiver must have the same air data rate)
+
+##RF Channel Frequency##
+
 

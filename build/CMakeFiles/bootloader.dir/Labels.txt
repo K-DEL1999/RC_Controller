@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/home/kbuntu/ESP32/RC_Controller/build/CMakeFiles/bootloader
+/home/kbuntu/ESP32/RC_Controller/build/CMakeFiles/bootloader.rule
+/home/kbuntu/ESP32/RC_Controller/build/CMakeFiles/bootloader-complete.rule
+/home/kbuntu/ESP32/RC_Controller/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/kbuntu/ESP32/RC_Controller/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/kbuntu/ESP32/RC_Controller/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/kbuntu/ESP32/RC_Controller/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/kbuntu/ESP32/RC_Controller/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/kbuntu/ESP32/RC_Controller/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/kbuntu/ESP32/RC_Controller/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

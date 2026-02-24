@@ -1,0 +1,7 @@
+CMake Error at run_serial_tool.cmake:66 (message):
+  
+  /home/kbuntu/.espressif/python_env/idf5.3_py3.12_env/bin/python;;/home/kbuntu/ESP32/esp-idf/components/esptool_py/esptool/esptool.py;--chip;esp32
+  failed.
+
+
+

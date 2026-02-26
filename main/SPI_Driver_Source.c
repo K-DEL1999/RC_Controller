@@ -1,10 +1,10 @@
 #include "SPI_Driver_Header.h"
 
 static unsigned char cmd_buffer; // buffer that holds cmd
-static unsigned char trx_buffer[TX_BUFFER_SIZE]; // buffer that holds data
-static unsigned char trx_size; // bytes being transmitted -- max 32
-static unsigned char rcx_size; // bytes being received -- max 32
-static unsigned char rcx_buffer[RX_BUFFER_SIZE]; // buffer that holds received data 
+static unsigned char tx_buffer[TX_BUFFER_SIZE]; // buffer that holds data
+static unsigned char tx_size; // bytes being transmitted -- max 32
+static unsigned char rx_buffer[RX_BUFFER_SIZE]; // buffer that holds received data 
+static unsigned char rx_size; // bytes being received -- max 32
 
 static spi_device_handle_t handle;
 static void transaction(void);
@@ -36,20 +36,24 @@ void init_spi_driver(void){
 //  one functions is needed.
 unsigned char* spi_transmit(unsigned char* data, unsigned char t_size, unsigned char r_size){
     if (t_size > 0){
-        trx_size = t_size - 1;
-        rcx_size = r_size;
+        // data includes the command for the cmd buffer and the data for the tx_buffer. Since the
+        //  cmd is passed to the cmd member of the SPI transaction it is not included in the t.tx_buffer
+        //  so you have to subtract 1 from the t_size to get the number of bytes that will be passed
+        //  in the t.tx_buffer. (t_size is the cmd + data) 
+        tx_size = t_size - 1;
+        rx_size = r_size;
         
         // unsigned char is bounded by 0 so once size == 0 you exit the loop
         // After exiting loop you assign the 0th element its value 
         while (--t_size > 0){
-            *(trx_buffer + t_size) = *(data + t_size);
+            *(tx_buffer + (t_size-1)) = *(data + t_size);
         }
         
-        cmd_buffer = *(data + t_size);
+        cmd_buffer = *data;
     
         transaction(); 
 
-        return rcx_buffer;
+        return rx_buffer;
     }
     else {
         // Error
@@ -63,10 +67,10 @@ static void transaction(void){
     memset(&t, 0, sizeof(t));
     
     t.cmd = cmd_buffer;
-    t.length = trx_size*8;
-    t.rxlength = rcx_size*8;
-    t.tx_buffer = trx_buffer;
-    t.rx_buffer = rcx_buffer;
+    t.length = tx_size*8;
+    t.rxlength = rx_size*8;
+    t.tx_buffer = tx_buffer;
+    t.rx_buffer = rx_buffer;
     
     spi_device_transmit(handle, &t);
 }

@@ -24,6 +24,7 @@
 #define RX_BUFFER_SIZE 32
 
 void init_spi_driver(void);
+// Requires data, size of data and size of expected data to be received 
 unsigned char* spi_transmit(unsigned char* data, unsigned char t_size, unsigned char r_size);
 
 #endif /*SPI_DRIVER_HEADER_H*/

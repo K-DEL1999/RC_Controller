@@ -1,13 +1,34 @@
+#include <stdio.h>
+#include <string.h>
+
+#include "driver/spi_master.h"
+#include "driver/gpio.h"
+
 #include "SPI_Driver_Header.h"
 
-static unsigned char cmd_buffer; // buffer that holds cmd
-static unsigned char tx_buffer[TX_BUFFER_SIZE]; // buffer that holds data
-static unsigned char tx_size; // bytes being transmitted -- max 32
-static unsigned char rx_buffer[RX_BUFFER_SIZE]; // buffer that holds received data 
-static unsigned char rx_size; // bytes being received -- max 32
-
 static spi_device_handle_t handle;
-static void transaction(void);
+
+#if NRF24L01_PLUS_CE
+static void init_ce_pin(void){
+    gpio_config_t io_conf = {};
+
+    io_conf.pin_bit_mask = GPIO_OUTPUT_PIN_SEL;
+    io_conf.mode = GPIO_MODE_OUTPUT;
+    io_conf.pull_down_en = 0;
+    io_conf.pull_up_en = 0;
+    io_conf.intr_type = GPIO_INTR_DISABLE;
+    
+    gpio_config(&io_conf);
+}
+
+void set_ce_high(void){
+    gpio_set_level(CE, 1);
+}
+
+void set_ce_low(void){
+    gpio_set_level(CE, 0);
+}
+#endif
 
 void init_spi_driver(void){
     
@@ -18,6 +39,8 @@ void init_spi_driver(void){
         .sclk_io_num = SCLK
     };
 
+    // mode refers to clock polarty and clock phase. MODE is set to 0 in the header file
+    //  which translates to (0,0) -> (CPOL,CPHAS) -> meaning clock polarity is 0 and clock phase is 0 
     spi_device_interface_config_t spi_device_config = {
         .command_bits = COMMAND_BITS,
         .clock_speed_hz = CLOCK_SPEED,
@@ -27,52 +50,41 @@ void init_spi_driver(void){
     };
     
     spi_bus_initialize(SPI2_HOST, &spi_config, 1);
-    spi_bus_add_device(SPI2_HOST, &spi_device_config, &handle); 
+    spi_bus_add_device(SPI2_HOST, &spi_device_config, &handle);
+
+    #if NRF24L01_PLUS_CE
+    init_ce_pin();
+    #endif 
 }
 
 // If you expect data, it will be stored in the rx_buffer after transmission 
 //
 // Receiving data will require a cmd so a transmit is required therefore only
 //  one functions is needed.
-unsigned char* spi_transmit(unsigned char* data, unsigned char t_size, unsigned char r_size){
-    if (t_size > 0){
+unsigned char* spi_transmit(unsigned char* tdata, unsigned char tsize, unsigned char* rdata, unsigned char rsize){
+    if (tsize > 0){
         // data includes the command for the cmd buffer and the data for the tx_buffer. Since the
         //  cmd is passed to the cmd member of the SPI transaction it is not included in the t.tx_buffer
         //  so you have to subtract 1 from the t_size to get the number of bytes that will be passed
-        //  in the t.tx_buffer. (t_size is the cmd + data) 
-        tx_size = t_size - 1;
-        rx_size = r_size;
+        //  in the t.tx_buffer. (tsize is the cmd + data) 
+        spi_transaction_t t;
+        memset(&t, 0, sizeof(t));
         
-        // unsigned char is bounded by 0 so once size == 0 you exit the loop
-        // After exiting loop you assign the 0th element its value 
-        while (--t_size > 0){
-            *(tx_buffer + (t_size-1)) = *(data + t_size);
-        }
+        t.cmd = *tdata;
+        t.length = (tsize - 1)*8; // Subtract 1 because tdata contains cmd and data. We just want size of data
+        t.rxlength = rsize*8;
+        t.tx_buffer = (tdata + 1);
+        t.rx_buffer = rdata;
         
-        cmd_buffer = *data;
-    
-        transaction(); 
+        spi_device_transmit(handle, &t);
 
-        return rx_buffer;
+        return rdata;
     }
     else {
         // Error
     }
 
     return NULL;
-}
-
-static void transaction(void){
-    spi_transaction_t t;
-    memset(&t, 0, sizeof(t));
-    
-    t.cmd = cmd_buffer;
-    t.length = tx_size*8;
-    t.rxlength = rx_size*8;
-    t.tx_buffer = tx_buffer;
-    t.rx_buffer = rx_buffer;
-    
-    spi_device_transmit(handle, &t);
 }
 
 

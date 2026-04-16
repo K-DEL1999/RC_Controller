@@ -69,7 +69,7 @@ void init_rc_controller(void){
         data[1] = (voltage[1] >> 8) & 0xFF;
         data[2] = (voltage[2] >> 8) & 0xFF;
 
-        //printf("x1 = %d\t y1 = %d\t y2 = %d\n", data[0], data[1], data[2]);
+        printf("x1 = %d\t y1 = %d\t y2 = %d\n", data[0], data[1], data[2]);
                 
         nrf_send(data);
     }

@@ -2,7 +2,7 @@
 #define SPI_DRIVER_HEADER_H
 
 // ESP32 S3 : 1 or ESP32 NODEMCU 32 : 0
-#define ESP32S3_OR_NODEMCU32 1 
+#define ESP32S3_OR_NODEMCU32 0 
 
 // If using NRF24L01_PLUS a CE pin needs to be set -- set the NRF24L01_PLUS_CE flag to 1
 // enable  : 1

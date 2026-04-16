@@ -25,7 +25,7 @@
 -- Found Threads: TRUE  
 -- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS
 -- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS - Success
--- App "RC_Controller" version: 62e77fa-dirty
+-- App "RC_Controller" version: 1ba9e49-dirty
 -- Adding linker script /home/kbuntu/ESP32/RC_Controller/build/esp-idf/esp_system/ld/memory.ld
 -- Adding linker script /home/kbuntu/ESP32/RC_Controller/build/esp-idf/esp_system/ld/sections.ld.in
 -- Adding linker script /home/kbuntu/ESP32/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ld

@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "RC_Controller",
-    "project_version":    "62e77fa-dirty",
+    "project_version":    "1ba9e49-dirty",
     "project_path":       "/home/kbuntu/ESP32/RC_Controller",
     "idf_path":           "/home/kbuntu/ESP32/esp-idf",
     "build_dir":          "/home/kbuntu/ESP32/RC_Controller/build",

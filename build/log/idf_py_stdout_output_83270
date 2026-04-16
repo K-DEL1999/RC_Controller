@@ -1,5 +1,5 @@
-����00020020 vaddr=42000020 size=1c148h (115016) map[0m
-ESP-ROM:esp32s3-20210327
+ddr=40374000 size=0113ch (  4412) load[0m
+[0;32mI (117) esp_image:�ESP-ROM:esp32s3-20210327
 Build:Mar 27 2021
 rst:0x1 (POWERON),boot:0x8 (SPI_FAST_FLASH_BOOT)
 SPIWP:0xee
@@ -10,7 +10,7 @@ load:0x403c8704,len:0xcb8
 load:0x403cb700,len:0x2db0
 entry 0x403c8914
 [0;32mI (27) boot: ESP-IDF v5.3 2nd stage bootloader[0m
-[0;32mI (27) boot: compile time Apr 16 2026 17:43:26[0m
+[0;32mI (27) boot: compile time Apr 16 2026 17:55:38[0m
 [0;32mI (27) boot: Multicore bootloader[0m
 [0;32mI (30) boot: chip revision: v0.2[0m
 [0;32mI (34) boot.esp32s3: Boot SPI Speed : 80MHz[0m
@@ -35,9 +35,9 @@ entry 0x403c8914
 [0;32mI (187) cpu_start: cpu freq: 160000000 Hz[0m
 [0;32mI (187) app_init: Application information:[0m
 [0;32mI (190) app_init: Project name:     RC_Controller[0m
-[0;32mI (195) app_init: App version:      62e77fa-dirty[0m
-[0;32mI (200) app_init: Compile time:     Apr 16 2026 17:43:21[0m
-[0;32mI (206) app_init: ELF file SHA256:  199a9b023...[0m
+[0;32mI (195) app_init: App version:      1ba9e49-dirty[0m
+[0;32mI (200) app_init: Compile time:     Apr 16 2026 17:55:33[0m
+[0;32mI (206) app_init: ELF file SHA256:  a612c7484...[0m
 [0;32mI (212) app_init: ESP-IDF:          v5.3[0m
 [0;32mI (216) efuse_init: Min chip rev:     v0.0[0m
 [0;32mI (221) efuse_init: Max chip rev:     v0.99 [0m
@@ -62,45 +62,47 @@ x1 = 6	 y1 = 6	 y2 = 6
 x1 = 6	 y1 = 6	 y2 = 6	
 x1 = 6	 y1 = 6	 y2 = 6	
 x1 = 6	 y1 = 6	 y2 = 6	
-x1 = 6	 y1 = 6	 y2 = 6	
-x1 = 6	 y1 = 6	 y2 = 0	
-x1 = 6	 y1 = 6	 y2 = 0	
-x1 = 6	 y1 = 6	 y2 = 6	
-x1 = 6	 y1 = 6	 y2 = 7	
-x1 = 6	 y1 = 6	 y2 = 9	
-x1 = 6	 y1 = 6	 y2 = 10	
-x1 = 6	 y1 = 6	 y2 = 12	
-x1 = 6	 y1 = 6	 y2 = 12	
-x1 = 1	 y1 = 6	 y2 = 6	
 x1 = 2	 y1 = 6	 y2 = 6	
-x1 = 2	 y1 = 6	 y2 = 6	
-x1 = 1	 y1 = 6	 y2 = 6	
 x1 = 0	 y1 = 6	 y2 = 6	
+x1 = 6	 y1 = 6	 y2 = 6	
+x1 = 7	 y1 = 6	 y2 = 6	
+x1 = 10	 y1 = 6	 y2 = 6	
+x1 = 11	 y1 = 6	 y2 = 5	
+x1 = 11	 y1 = 6	 y2 = 3	
+x1 = 11	 y1 = 6	 y2 = 1	
+x1 = 11	 y1 = 6	 y2 = 0	
+x1 = 11	 y1 = 6	 y2 = 0	
+x1 = 11	 y1 = 6	 y2 = 6	
+x1 = 11	 y1 = 6	 y2 = 5	
+x1 = 11	 y1 = 6	 y2 = 4	
+x1 = 11	 y1 = 6	 y2 = 4	
+x1 = 11	 y1 = 6	 y2 = 4	
+x1 = 11	 y1 = 6	 y2 = 3	
+x1 = 11	 y1 = 6	 y2 = 3	
+x1 = 11	 y1 = 6	 y2 = 3	
+x1 = 12	 y1 = 6	 y2 = 3	
+x1 = 12	 y1 = 6	 y2 = 3	
+x1 = 6	 y1 = 6	 y2 = 3	
+x1 = 6	 y1 = 12	 y2 = 3	
+x1 = 6	 y1 = 12	 y2 = 3	
+x1 = 6	 y1 = 12	 y2 = 3	
+x1 = 7	 y1 = 12	 y2 = 3	
+x1 = 6	 y1 = 6	 y2 = 3	
+x1 = 6	 y1 = 7	 y2 = 3	
+x1 = 6	 y1 = 7	 y2 = 3	
+x1 = 6	 y1 = 12	 y2 = 3	
+x1 = 6	 y1 = 12	 y2 = 3	
+x1 = 4	 y1 = 12	 y2 = 3	
+x1 = 0	 y1 = 9	 y2 = 3	
+x1 = 0	 y1 = 8	 y2 = 3	
 x1 = 0	 y1 = 6	 y2 = 3	
-x1 = 0	 y1 = 6	 y2 = 2	
-x1 = 0	 y1 = 5	 y2 = 0	
-x1 = 0	 y1 = 0	 y2 = 0	
-x1 = 0	 y1 = 0	 y2 = 0	
-x1 = 6	 y1 = 6	 y2 = 6	
-x1 = 0	 y1 = 0	 y2 = 0	
-x1 = 0	 y1 = 0	 y2 = 0	
-x1 = 6	 y1 = 6	 y2 = 6	
-x1 = 12	 y1 = 12	 y2 = 12	
-x1 = 12	 y1 = 12	 y2 = 12	
-x1 = 12	 y1 = 12	 y2 = 12	
-x1 = 8	 y1 = 12	 y2 = 12	
-x1 = 6	 y1 = 12	 y2 = 12	
-x1 = 0	 y1 = 12	 y2 = 12	
-x1 = 0	 y1 = 12	 y2 = 12	
-x1 = 0	 y1 = 12	 y2 = 11	
-x1 = 0	 y1 = 12	 y2 = 11	
-x1 = 0	 y1 = 9	 y2 = 9	
-x1 = 6	 y1 = 6	 y2 = 8	
-x1 = 6	 y1 = 6	 y2 = 8	
-x1 = 6	 y1 = 6	 y2 = 9	
-x1 = 6	 y1 = 6	 y2 = 11	
-x1 = 6	 y1 = 6	 y2 = 6	
-x1 = 6	 y1 = 6	 y2 = 6	
+x1 = 12	 y1 = 6	 y2 = 3	
+x1 = 12	 y1 = 6	 y2 = 3	
+x1 = 12	 y1 = 6	 y2 = 3	
+x1 = 7	 y1 = 0	 y2 = 3	
+x1 = 12	 y1 = 12	 y2 = 3	
+x1 = 12	 y1 = 12	 y2 = 3	
+x1 = 5	 y1 = 6	 y2 = 4	
 x1 = 6	 y1 = 6	 y2 = 6	
 x1 = 6	 y1 = 6	 y2 = 6	
 x1 = 6	 y1 = 6	 y2 = 6	

@@ -5,7 +5,49 @@ Pin names and pin signal conditions are written in **courier_bold**
 
 ## Project Structure
 
+- **RC_Controller_Source.c**: function defintions, helper function declarations, helper function declarations
+- **RC_Controller_Header.h**: function declarations and struct defintions
+- **RC_Controller_Main.c**: example showing how to use high level functions
+- **nRF24L01_PLUS_Source.c**: All low level function declarations and definitions
+- **nRF24L01_PLUS_Header.h**: function declarations and struct definitions
+- **SPI_Driver_Header.h**: SPI transmit declaration
+- **SPI_Driver_Source.c**: SPI transmit definition and helper function declarations and definitions
+
 ## Provided High Level Functions
+
+Users are provided a send and receive function but can choose to design their own using the lower level functions.
+
+```c
+void configure_transceiver(void); 
+void nrf_send(unsigned char* data);
+void nrf_read(unsigned char* rdata);
+```
+
+## Low Level Fucntions
+
+```c
+// All size references are in bytes -- how many unsigned char elements there are 
+static unsigned char* r_register(unsigned char address, unsigned char return_size); 
+static void w_register(unsigned char address, unsigned char* data, unsigned char size);
+static void set_address(void);
+static void reset_address(void);
+
+#if RECEIVER_OR_TRANSMITTER
+// Transmitter
+static void set_as_ptx(void);
+static void high_pulse_ptx(void);
+static void w_tx_payload(unsigned char* data, unsigned char size);
+static void transmit_payload(void);
+static void flush_tx(void);
+#else
+// Receiver
+static void set_as_prx(void);
+static void high_pulse_prx(void);
+static void receive_payload(void);
+static unsigned char* r_rx_payload(void);
+static void flush_rx(void);
+#endif
+```
 
 ## Connection
 
@@ -248,6 +290,29 @@ void configure_transceiver(void){
 **Only the PTX verificaiton is included since the timing diagram will be very similar. The only change would be the extra write to the RX_PW_P0 register. Also the transmitter writes to 2 registers when setting the address - TX_ADDR and RX_ADDR_P0 - while the receiver onyl write to one address - RX_ADDR_P0**
 
 <img width="2594" height="639" alt="nRF24L01+_PTX_Initialization" src="https://github.com/user-attachments/assets/de94a686-a909-419b-984f-e4a989c9b341" />
+
+## Pulseview Settings
+
+<img width="384" height="447" alt="logic_analyzer_parameters_for_nRF24L01+" src="https://github.com/user-attachments/assets/d82088fe-497b-4bfe-b936-bcf4f0ce5dbd" />
+
+## How to Use
+
+1. Ensure you have a working ESP32 development environment (this project was designed using the ESP-IDF development framework)
+2. Clone the repository
+3. Connect pins to SPI1 pins on ESP32 WROOM and connect CE pin to pin 27
+4. Build and Flash Transmitter - **ensure to change RECEIVER_OR_TRANSMITTER macro to 1**
+5. Build and Flash Receiver - **ensure to change RECEIVER_OR_TRANSMITTER macro to 0**
+
+### If using ESP-IDF
+```sh
+idf.py build
+idf.py flash
+```
+
+## Application
+
+- **Allows wireless communication between 2 devices**
+
 
 
 

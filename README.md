@@ -151,6 +151,31 @@ static unsigned char* r_register(unsigned char address, unsigned char return_siz
 
 <img width="1096" height="861" alt="nRF24L01_plus_read_cmd_CONFIG" src="https://github.com/user-attachments/assets/08d4c3ad-6ca4-4247-8cd7-11be003d3f9a" />
 
+### W_Register Function
+
+To write to a register you transmit the 5 bit register map address of the register with the 6th bit turned on.You then follow the command with the desired data to be written. You must include the size of the data aswell when calling the function. 
+
+```c
+static void w_register(unsigned char address, unsigned char* data, unsigned char size){
+    *(nrf_tbuffer) = (address & 0x1F) | 0x20; // 0x1F applies the 5 bit mask and (... | 0x20) turns on the 6th bit 
+   
+    if (data != nrf_tbuffer){
+        int i = 0;
+        while (++i <= size){
+            *(nrf_tbuffer + i) = *(data + (i-1));
+        } 
+    }
+
+    // size is bytes of data so you add 1 for the cmd byte
+    spi_transmit(nrf_tbuffer, size+1, nrf_rbuffer, 0);
+}
+```
+
+### W_Register Function Verifiction
+
+<img width="2172" height="906" alt="nRF24L01_PLUS_write_cmd_CONFIG" src="https://github.com/user-attachments/assets/fc650800-fc78-4dbb-aa04-5fa16f485dd6" />
+
+
 
 
 

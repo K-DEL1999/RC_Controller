@@ -114,7 +114,7 @@ static void set_as_ptx(void){
 This is an onboard subsystem that handles all the packet handling and timing. It deals with the packet transaction between the PTX (Primary Transmitter) and the PRX (Secondary Transmitter). Packets are formatted in the following way...
 
 <img width="1347" height="249" alt="image" src="https://github.com/user-attachments/assets/03cbf088-d47d-4929-8139-498a6483bcc9" />
-
+  
 - **Preamble**: The preamble is a bit sequence used to detect 0 and 1 levels in the receiver
 - **Address**: This is the address for the receiver. An address ensures that the correct packet are detected by the receiver. The address field can be configured to be 3, 4 or, 5 bytes long with the AW register.
 - **Packet Control Field**:

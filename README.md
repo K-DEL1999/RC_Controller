@@ -6,7 +6,7 @@ Commands, bit state conditions, and register names are written in _courier_
 Pin names and pin signal conditions are written in **courier_bold**
 
 
-## Introduction to the the NRF24L01 module
+## Connection
 
 This device is configured and operated through SPI. Through SPI the register map is available. What is a register map ? Special memory area that consists of named addresses called registers (control and status registers (CSR)). Register map contains all configuration registers in the nRF24L01.
 

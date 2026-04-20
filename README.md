@@ -127,7 +127,7 @@ This is an onboard subsystem that handles all the packet handling and timing. It
 **Shockburst will handle all the packet assembly and packet validation**
 
 <img width="1347" height="833" alt="image" src="https://github.com/user-attachments/assets/ddffd89d-fe26-4ae4-8f6f-5be1d6e38808" />
-_Flow chart for how enhanced shockburst handles packet transmission and reception_
+__Flow chart for how enhanced shockburst handles packet transmission and reception__
 
 
 

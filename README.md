@@ -1,23 +1,25 @@
 # RC_Controller
 
-Datasheet conventions
+## Datasheet conventions
 
 Commands, bit state conditions, and register names are written in _courier_
 Pin names and pin signal conditions are written in **courier_bold**
 
 
-## Intro on the NRF24L01 module
+## Introduction to the the NRF24L01 module
 
 This device is configured and operated through SPI. Through SPI the register map is available. What is a register 
 map ? Special memory area that consists of named addresses called registers (control and status registers (CSR)).
 Register map contains all configuration registers in the nRF24L01.
 
-CE - Chip enable activates RX or TX mode
-CSN - SPI chip select 
-SCK - SPI clock
-MOSI - SPI slave data input 
-MISO - SPI slave data output
-IRQ - OPTIONAL (maskable interrupt pin)
+| PIN | Function |
+| :---: | :---: |
+| CE | Chip enable activates RX or TX mode
+| CSN | SPI chip select |
+| SCK | SPI clock |
+| MOSI | SPI slave data input | 
+| MISO | SPI slave data output | 
+| IRQ | OPTIONAL (maskable interrupt pin) |
 
 VCC - Power supply (+1.9V to +3.6V DC)
 VSS - GND (0V)

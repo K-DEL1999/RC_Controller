@@ -20,21 +20,22 @@ Register map contains all configuration registers in the nRF24L01.
 | MOSI | SPI slave data input | 
 | MISO | SPI slave data output | 
 | IRQ | OPTIONAL (maskable interrupt pin) |
-
-VCC - Power supply (+1.9V to +3.6V DC)
-VSS - GND (0V)
+| VCC | Power supply (+1.9V to +3.6V DC) |
+| VSS | GND |
 
 ## Built-in state machine 
 
 nRF24L01 has a built-in state machine that controls the transitions between differnt operating modes of the chip.
 The state machine takes input from user defined register values and internal singals.
 
-(state machine - an abstract computational model that can be in exactly one of a finite number of states at any
+(**state machine** - an abstract computational model that can be in exactly one of a finite number of states at any
 given time)
 
 The nRF24L01 is in an undefined state until VDD becomes greater than or equal to 1.9V. Once in a defined state it
 enters the **Power On Reset State**. It remains in this state until it enters the **Power Down Mode**. Even when in
 power down mode the MCU can control the chip through *SPI* and the *Chip Enable pin*.
+
+<img width="1547" height="1149" alt="nrf24L01_plus_state_diagram" src="https://github.com/user-attachments/assets/9521496b-50d0-4d86-b810-fdfbb2d13923" />
 
 ## States
 
@@ -55,7 +56,6 @@ State that is allowed to use but it is not used during normal operation
 Time limited state used during startup of the oscillator and settling in the PLL (Phase-Locked Loop). PLL is crucial part of
 the integrated frequency synthesizer used to generate the stable, high frequency carrier singal (2.4 Ghz) needed for GFSK 
 modulation. Locks the output frequency of the radio to a specific 2.4 Ghz channel.
-
 
 ## Modes
 

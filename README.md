@@ -137,18 +137,10 @@ Flow chart for how enhanced shockburst handles packet transmission and reception
 
 ### R_Register Function
 
+To read from a register you transmit the 5 bit register map address of the register you wish to read from. All register addresses are a byte so we cast the int enum values to 8 bit/1 byte values. Then a a 5 bit mask is applied to satisfy the command requirements. You must also specify the size of the data being read (`return_size`)
+
 ```c
 static unsigned char* r_register(unsigned char address, unsigned char return_size){
-    /*
-        To read from a register you transmit the 5 bit register map address of the 
-        register you wish to read from. All register addresses 
-        are a byte so we cast the int enum values to 8 bit/1 byte values. Then a 
-        a 5 bit mask is applied to satisfy the command requirements.
-
-        transmit buffer size must always be greater than receive buffer size
-
-        below is the line that performs the necessary adjustments to the reg addresses
-    */
     *nrf_tbuffer = address & 0x1F; // 0x1F applies the 5 bit mask 
 
     return spi_transmit(nrf_tbuffer, return_size+1, nrf_rbuffer, return_size);

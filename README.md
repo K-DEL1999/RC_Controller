@@ -5,7 +5,7 @@ Pin names and pin signal conditions are written in **courier_bold**
 
 ## Project Structure
 
-
+## Provided High Level Functions
 
 ## Connection
 
@@ -131,6 +131,41 @@ This is an onboard subsystem that handles all the packet handling and timing. It
    
 Flow chart for how enhanced shockburst handles packet transmission and reception.
 
+## Register Values
+ I have stored all the registers in an enumeration. The nature of an enum made it very simple to initialize all the values without having to manually input each register address.
+
+```c
+ enum nrf_registers {
+    CONFIG, 
+    EN_AA, 
+    EN_RXADDR,
+    SETUP_AW,
+    SETUP_RETR,
+    RF_CH,
+    RF_SETUP,
+    STATUS,
+    OBSERVE_TX,
+    CD, 
+    RX_ADDR_P0,
+    RX_ADDR_P1,
+    RX_ADDR_P2,
+    RX_ADDR_P3,
+    RX_ADDR_P4,
+    RX_ADDR_P5,
+    TX_ADDR,
+    RX_PW_P0,
+    RX_PW_P1,
+    RX_PW_P2,
+    RX_PW_P3,
+    RX_PW_P4,
+    RX_PW_P5,
+    FIFO_STATUS,
+    DYNPD = 0x1C,
+    FEATURE 
+};
+```
+
+
 ## SPI Commands
 
 <img width="1260" height="738" alt="image" src="https://github.com/user-attachments/assets/b4686b89-46ca-4bc9-bec9-24a3d6ff3e05" />
@@ -174,6 +209,45 @@ static void w_register(unsigned char address, unsigned char* data, unsigned char
 ### W_Register Function Verifiction
 
 <img width="2172" height="906" alt="nRF24L01_PLUS_write_cmd_CONFIG" src="https://github.com/user-attachments/assets/fc650800-fc78-4dbb-aa04-5fa16f485dd6" />
+
+### Full Initialization of PTX and RTX
+
+To initialize the module as PTX you must set as PTX, set the address and then clear the status register to ensure no flags are set. If any flags are set the module will not transmit. To initialize the module as PRX you must set as PRX, write the payload size to the RX_PW_P0 register, set the address and then clear all flags. PTX and PRX must have the same address inorder to transmit and receive.
+
+```c
+void configure_transceiver(void){
+    init_spi_driver();
+    
+    // set as primary transmitter or primary receiver
+    #if RECEIVER_OR_TRANSMITTER
+    set_as_ptx();
+    //(*r_register(CONFIG, 1) == 0x09) ? printf("SUCCESS!! Set as PTX\n") : printf("FAILED!!\n");
+    #else
+    set_as_prx();
+    //(*r_register(CONFIG, 1) == 0x08) ? printf("SUCCESS!! Set as PRX\n") : printf("FAILED!!\n");
+    *(nrf_tbuffer+1) = PAYLOAD_BYTES; 
+    w_register(RX_PW_P0, nrf_tbuffer, 1);
+    #endif
+    
+    reset_address(); 
+    set_address();
+
+    // Ensures that status register flags are clear! When flags are still enabled the nrf24l01+ cannot 
+    //  transmit or receive.
+    status_reg = *r_register(STATUS, 1); 
+    status_reg |= 0x70;
+    w_register(STATUS, &status_reg, 1);
+
+
+    // Auto ack is enabled by default so no need to write to ENAA
+}
+```
+
+### Initialization Verification
+
+**Only the PTX verificaiton is included since the timing diagram will be very similar. The only change would be the extra write to the RX_PW_P0 register. Also the transmitter writes to 2 registers when setting the address - TX_ADDR and RX_ADDR_P0 - while the receiver onyl write to one address - RX_ADDR_P0**
+
+<img width="2594" height="639" alt="nRF24L01+_PTX_Initialization" src="https://github.com/user-attachments/assets/de94a686-a909-419b-984f-e4a989c9b341" />
 
 
 

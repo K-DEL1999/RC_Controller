@@ -124,5 +124,12 @@ This is an onboard subsystem that handles all the packet handling and timing. It
 - **Payload**: The payload is the user defined content of the packet. It can be 0 to 32 bytes wide and is transmitted on-air as it is uploaded (unmodified) to the device
 - **CRC** (Cyclic Redundancy Check) : The CRC is the error detection mechanism in the packet. It may either be 1 or 2 bytes and is calculated over the address, Packet Control Field, and Payload
 
+**Shockburst will handle all the packet assembly and packet validation**
+
+<img width="1347" height="833" alt="image" src="https://github.com/user-attachments/assets/ddffd89d-fe26-4ae4-8f6f-5be1d6e38808" />
+_Flow chart for how enhanced shockburst handles packet transmission and reception_
+
+
+
 
 

@@ -1,9 +1,10 @@
-# RC_Controller
+# RC_Controller Implementation in ESP32 
 
-## Datasheet conventions
-
-Commands, bit state conditions, and register names are written in _courier_
+Datasheet conventions: Commands, bit state conditions, and register names are written in _courier_
 Pin names and pin signal conditions are written in **courier_bold**
+
+## Project Structure
+
 
 
 ## Connection
@@ -124,11 +125,46 @@ This is an onboard subsystem that handles all the packet handling and timing. It
 - **Payload**: The payload is the user defined content of the packet. It can be 0 to 32 bytes wide and is transmitted on-air as it is uploaded (unmodified) to the device
 - **CRC** (Cyclic Redundancy Check) : The CRC is the error detection mechanism in the packet. It may either be 1 or 2 bytes and is calculated over the address, Packet Control Field, and Payload
 
-**Shockburst will handle all the packet assembly and packet validation**
+**Shockburst will handle all the packet assembly and packet validation (packet acknowledgement and packet retransmission)**
 
 <img width="1347" height="833" alt="image" src="https://github.com/user-attachments/assets/ddffd89d-fe26-4ae4-8f6f-5be1d6e38808" />
    
-Flow chart for how enhanced shockburst handles packet transmission and reception
+Flow chart for how enhanced shockburst handles packet transmission and reception.
+
+## SPI Commands
+
+<img width="1260" height="738" alt="image" src="https://github.com/user-attachments/assets/b4686b89-46ca-4bc9-bec9-24a3d6ff3e05" />
+
+### R_Register Function
+
+```c
+static unsigned char* r_register(unsigned char address, unsigned char return_size){
+    /*
+        To read from a register you transmit the 5 bit register map address of the 
+        register you wish to read from. All register addresses 
+        are a byte so we cast the int enum values to 8 bit/1 byte values. Then a 
+        a 5 bit mask is applied to satisfy the command requirements.
+
+        transmit buffer size must always be greater than receive buffer size
+
+        below is the line that performs the necessary adjustments to the reg addresses
+    */
+    *nrf_tbuffer = address & 0x1F; // 0x1F applies the 5 bit mask 
+
+    return spi_transmit(nrf_tbuffer, return_size+1, nrf_rbuffer, return_size);
+}
+```
+
+### R_Register Function Verification
+
+<img width="1096" height="861" alt="nRF24L01_plus_read_cmd_CONFIG" src="https://github.com/user-attachments/assets/08d4c3ad-6ca4-4247-8cd7-11be003d3f9a" />
+
+
+
+
+
+
+
 
 
 

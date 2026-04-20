@@ -109,4 +109,20 @@ static void set_as_ptx(void){
 4. Delay from CE positive edge to csn low : 4 us (min)
 5. Power Down -> TX/RX                    : 1.5 ms (min) (controlled by MCU)
 
+## Enhanced Shock Burst
+
+This is an onboard subsystem that handles all the packet handling and timing. It deals with the packet transaction between the PTX (Primary Transmitter) and the PRX (Secondary Transmitter). Packets are formatted in the following way...
+
+<img width="1347" height="249" alt="image" src="https://github.com/user-attachments/assets/03cbf088-d47d-4929-8139-498a6483bcc9" />
+
+- **Preamble**: The preamble is a bit sequence used to detect 0 and 1 levels in the receiver
+- **Address**: This is the address for the receiver. An address ensures that the correct packet are detected by the receiver. The address field can be configured to be 3, 4 or, 5 bytes long with the AW register.
+- **Packet Control Field**:
+      - Payload Length: This 6 bit field specifies the length of the payload in bytes. The length of the payload can be from 0 to 32 bytes.
+      - PID (packet identification): The 2 bit PID field is used to detect if the received packet is new or retransmitted.
+      - 1 bit no ack flag: The Selective Auto Acknowledgement feature controls the NO_ACK flag.
+- **Payload**: The payload is the user defined content of the packet. It can be 0 to 32 bytes wide and is transmitted on-air as it is uploaded (unmodified) to the device
+- **CRC** (Cyclic Redundancy Check) : The CRC is the error detection mechanism in the packet. It may either be 1 or 2 bytes and is calculated over the address, Packet Control Field, and Payload
+
+
 

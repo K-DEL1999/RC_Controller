@@ -59,14 +59,26 @@ void configure_transceiver(void){
     reset_address(); 
     set_address();
 
+    #if RECEIVER_OR_TRANSMITTER
+    //Clear TX Buffers
+    flush_tx();
+    #endif
+
     // Ensures that status register flags are clear! When flags are still enabled the nrf24l01+ cannot 
     //  transmit or receive.
     status_reg = *r_register(STATUS, 1); 
     status_reg |= 0x70;
     w_register(STATUS, &status_reg, 1);
 
-
-    // Auto ack is enabled by default so no need to write to ENAA
+    // Auto ack is enabled by default so no need to write to ENAA if you want auto ack
+    if (NO_ACK){
+        *(nrf_tbuffer+1) = (*r_register(EN_AA, 1) & 0x00); 
+        w_register(EN_AA, nrf_tbuffer, 1);
+        #if RECEIVER_OR_TRANSMITTER
+        *(nrf_tbuffer+1) = (*r_register(SETUP_RETR, 1) & 0x00);
+        w_register(SETUP_RETR, nrf_tbuffer, 1);        
+        #endif
+    }
 }
 
 static void reset_address(void){
@@ -202,7 +214,10 @@ static void high_pulse_ptx(void){
 // 
 // Max size of data is 32 bytes since that is the max size payload nrf24l01 can transmit 
 static void w_tx_payload(unsigned char* data, unsigned char size){
+    #if !NO_ACK
     flush_tx();
+    #endif
+    
     unsigned char i = 0;
     
     *nrf_tbuffer = 0xA0; // payload write command for nrf24l01 (1010 0000)
@@ -221,6 +236,7 @@ static void transmit_payload(void){
     w_register(CONFIG, &config_reg, 1);
     high_pulse_ptx();
 
+    #if !NO_ACK
     // TX_DS bit in status register is set high if ack was received
     // MAX_RT bit in status register is set high when max retransmissions have been sent
     while (!((status_reg = *r_register(STATUS, 1)) >> 4)); // in data sheet 4 MSbits are 0 when no flags are on
@@ -239,8 +255,11 @@ static void transmit_payload(void){
 
     status_reg |= 0x30;
     w_register(STATUS, &status_reg, 1);
-
-    //printf("Transmission completed\n");
+    #else 
+    //status_reg |= 0x20;
+    //status register already has reset value saved in it so no need to modify
+    w_register(STATUS, &status_reg, 1);
+    #endif
 
     // Deactivates PWR_UP mode by setting to 0
     config_reg &= ~0x02;

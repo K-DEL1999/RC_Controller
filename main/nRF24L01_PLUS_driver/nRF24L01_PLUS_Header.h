@@ -2,8 +2,10 @@
 #define NRF24L01_PLUS_HEADER_H
 
 // 0 for receiver --- 1 for transmitter
-#define RECEIVER_OR_TRANSMITTER 0 
+#define RECEIVER_OR_TRANSMITTER 0
 
+// Disable auto ack 
+#define NO_ACK 1
 // largest data transmitted will be 32 byte payload plus 1 byte command so 33 bytes are needed
 // largest data received will be 32 bytes
 // So buffer has to be made large enough to hold that data
